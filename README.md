@@ -46,16 +46,6 @@ MobileProviderAPI/
 - .NET 8.0 SDK
 - Azure SQL Database (veya LocalDB geliştirme için)
 
-### 1. Projeyi Klonlayın
-```bash
-git clone <repository-url>
-cd melisa_mobilproviderapi
-```
-
-### 2. NuGet Paketlerini Yükleyin
-```bash
-dotnet restore
-```
 
 ### 3. Veritabanı Bağlantı String'ini Yapılandırın
 
@@ -80,7 +70,7 @@ dotnet ef database update --startup-project ../MobileProviderAPI.Gateway
 ```
 
 ### 5. Uygulamayı Çalıştırın
-```bash
+
 cd MobileProviderAPI.Gateway
 dotnet run
 ```
@@ -127,39 +117,7 @@ Authorization: Bearer {token}
 - **Genel Rate Limit**: 100 istek/dakika (tüm endpoint'ler için)
 - **Query Bill (Mobile App)**: 3 istek/subscriber/gün
 
-## Azure'a Deploy Etme
 
-### 1. Azure SQL Database Oluşturma
-
-1. Azure Portal'da SQL Database oluşturun
-2. Connection string'i kopyalayın
-3. Firewall kurallarını yapılandırın (Azure servislerinden erişime izin verin)
-
-### 2. Azure App Service Oluşturma
-
-1. Azure Portal'da App Service oluşturun
-2. .NET 8.0 runtime stack seçin
-3. Connection string'i App Service Configuration'a ekleyin:
-   - Name: `DefaultConnection`
-   - Value: Azure SQL connection string
-
-### 3. Deployment
-
-#### Visual Studio ile:
-1. Projeye sağ tıklayın → Publish
-2. Azure App Service seçin
-3. Mevcut App Service'i seçin veya yeni oluşturun
-
-#### Azure CLI ile:
-```bash
-az webapp deployment source config-zip \
-  --resource-group <resource-group> \
-  --name <app-name> \
-  --src <path-to-zip>
-```
-
-#### GitHub Actions ile:
-`.github/workflows/azure-deploy.yml` dosyası oluşturun (örnek aşağıda)
 
 ## Örnek CSV Format (Batch Add Bill)
 
@@ -169,11 +127,6 @@ SubscriberNo,Month,TotalAmount
 1234567890,2024-02,175.00
 9876543210,2024-01,200.00
 ```
-
-## Test
-
-### Postman Collection
-Postman collection'ı import ederek tüm endpoint'leri test edebilirsiniz.
 
 ### cURL Örnekleri
 
