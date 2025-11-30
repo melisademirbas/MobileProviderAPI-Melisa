@@ -14,7 +14,6 @@ Bu proje, mobil operatör fatura ödeme sistemi için bir API Gateway uygulamas�
 
 ## Proje Yapısı
 
-```
 MobileProviderAPI/
 ├── MobileProviderAPI.Gateway/     # API Gateway ve Controllers
 ├── MobileProviderAPI.Services/    # Business Logic
@@ -41,6 +40,27 @@ MobileProviderAPI/
 ### Admin
 - `POST /api/admin/addbill` - Fatura ekle (Auth: YES, Role: Admin)
 - `POST /api/admin/addbillbatch` - CSV dosyasından toplu fatura ekle (Auth: YES, Role: Admin)
+
+
+ ER Diyagram (ASCII):
+
++-------------+ 1 <----> * +--------+ 1 <----> * +---------+
+| Subscriber |-------------------| Bill |-------------------| Payment |
++-------------+ +--------+ +---------+
+| SubscriberID|                 | BillId |                   |PaymentId|
+| SubscriberNo|                 |SubscriberId |              | BillId(FK)
+| Name |                       | SubscriberNo|                | SubscriberId(FK)
+| Email|                       | TotalAmount |                | SubscriberNo|
+                                | PaidAmount                  | Amount|
++-------------+                  | Created At |               | Status | 
+                                                             | PaymentDate
+
++--------+ +---------+
+
+AdminUser (1) --- manages --> Bill (n)
+
+RateLimit (per day) references SubscriberNo
+AuditLog logs requests/responses
 
 ## Kurulum
 
@@ -77,9 +97,6 @@ cd MobileProviderAPI.Gateway
 dotnet run
 ```
 
-Uygulama `https://localhost:5001` (veya `http://localhost:5000`) adresinde çalışacaktır.
-
-Swagger UI: `https://localhost:5001/swagger`
 
 ## Authentication
 
