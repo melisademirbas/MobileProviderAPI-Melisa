@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileProviderAPI.Models", "MobileProviderAPI.Models\MobileProviderAPI.Models.csproj", "{C0A5EFEE-A10B-4845-BDE6-993A35CFD690}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileProviderAPI.Common", "MobileProviderAPI.Common\MobileProviderAPI.Common.csproj", "{713F7354-94D3-4CE7-BDAE-2F71BC04987F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileProviderAPI.Data", "MobileProviderAPI.Data\MobileProviderAPI.Data.csproj", "{5AB5F0F7-6A49-470D-93C0-F6DA92643B6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileProviderAPI.Services", "MobileProviderAPI.Services\MobileProviderAPI.Services.csproj", "{7138EE2E-0E06-4853-A30A-777F1F7EBEED}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileProviderAPI.Gateway", "MobileProviderAPI.Gateway\MobileProviderAPI.Gateway.csproj", "{BEE07909-FDDB-4B83-92DF-6BBB8F84B25E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C0A5EFEE-A10B-4845-BDE6-993A35CFD690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0A5EFEE-A10B-4845-BDE6-993A35CFD690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0A5EFEE-A10B-4845-BDE6-993A35CFD690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0A5EFEE-A10B-4845-BDE6-993A35CFD690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713F7354-94D3-4CE7-BDAE-2F71BC04987F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713F7354-94D3-4CE7-BDAE-2F71BC04987F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713F7354-94D3-4CE7-BDAE-2F71BC04987F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713F7354-94D3-4CE7-BDAE-2F71BC04987F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AB5F0F7-6A49-470D-93C0-F6DA92643B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AB5F0F7-6A49-470D-93C0-F6DA92643B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AB5F0F7-6A49-470D-93C0-F6DA92643B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AB5F0F7-6A49-470D-93C0-F6DA92643B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7138EE2E-0E06-4853-A30A-777F1F7EBEED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7138EE2E-0E06-4853-A30A-777F1F7EBEED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7138EE2E-0E06-4853-A30A-777F1F7EBEED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7138EE2E-0E06-4853-A30A-777F1F7EBEED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEE07909-FDDB-4B83-92DF-6BBB8F84B25E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEE07909-FDDB-4B83-92DF-6BBB8F84B25E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEE07909-FDDB-4B83-92DF-6BBB8F84B25E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEE07909-FDDB-4B83-92DF-6BBB8F84B25E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
