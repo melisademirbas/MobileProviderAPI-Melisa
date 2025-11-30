@@ -41,6 +41,20 @@ MobileProviderAPI/
 - `POST /api/admin/addbill` - Fatura ekle (Auth: YES, Role: Admin)
 - `POST /api/admin/addbillbatch` - CSV dosyasından toplu fatura ekle (Auth: YES, Role: Admin)
 
+Tasarım 
+•	Mikroservis yapısı / monolit: Bu proje tek bir Web API uygulaması (versioned REST API olarak tasarlandı. 
+•	API Gateway: Tüm istekler API Gateway üzerinden geçer. Gateway üzerinde:
+o	Rate-limiting (abone başına günlük 3 sorgu limitini uygulamak) — Azure API Management veya özelleştirilmiş middleware ile.
+o	Authentication (JWT) doğrulaması (mobil ve admin için zorunlu; web ödeme için opsiyonel).
+o	Logging: request/response bilgileri (HTTP method, path, timestamp, source IP, headers, sizes, auth success/fail, status code, latency).
+•	Veritabanı: Azure SQL Database kullanıldı Tablolar: Subscribers, Bills, Payments.
+•	Paging ve Authentication: Belirtilen API'larda paging ve authentication gereksinimlerine uygun middleware/attribute kullanıldı.
+•	Idempotency / Partial payment: Ödeme tutarı eksikse kalan bakiye Bills tablosunda tutulur; payment transaction kaydı oluşturulur.
+
+ Karşılaşılan sorunlar :
+•	Rate-limiting'i API Gateway üzerinde test etme zorluğu (localde gateway taklit edilirken bazı header/tenant bilgileri farklı davrandı).
+•	JWT token doğrulaması ve token süresi testlerinde clock drift (sunucu saat farklılıkları) nedeniyle kısa süreli başarısız doğrulamalar görüldü; çözüm: tolerans window + NTP senkronizasyonu.
+
 
  ER Diyagram (ASCII):
 
@@ -105,6 +119,7 @@ dotnet run
 POST /api/authentication/login
 Content-Type: application/json
 
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 {
   "username": "admin",
   "password": "admin123"
@@ -118,6 +133,7 @@ Response:
   "expiresAt": "2024-01-01T12:00:00Z"
 }
 ```
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ### API Çağrılarında Token Kullanımı
 ```bash
