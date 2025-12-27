@@ -8,6 +8,7 @@ using MobileProviderAPI.Data.Repositories;
 using MobileProviderAPI.Services;
 using System.Text;
 using AspNetCoreRateLimit;
+using MobileProviderAPI.Gateway.AiAgent;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,6 +68,22 @@ builder.Services.AddScoped<IBillService, BillService>();
 // Add IConfiguration to services explicitly
 builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
+// AI Agent (Ollama + orchestration)
+builder.Services.AddHttpClient(AiAgentHttpClientNames.Ollama, (sp, client) =>
+{
+    var config = sp.GetRequiredService<IConfiguration>();
+    var baseUrl = config["Ollama:BaseUrl"] ?? "http://localhost:11434";
+    client.BaseAddress = new Uri(baseUrl.TrimEnd('/') + "/");
+    client.Timeout = TimeSpan.FromSeconds(60);
+});
+
+builder.Services.AddHttpClient(AiAgentHttpClientNames.Gateway, client =>
+{
+    client.Timeout = TimeSpan.FromSeconds(30);
+});
+
+builder.Services.AddSingleton<AiAgentOrchestrator>();
+
 // JWT Authentication
 var jwtSecretKey = builder.Configuration["Jwt:SecretKey"] 
     ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLong!";
@@ -122,6 +139,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseWebSockets();
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
@@ -131,7 +149,27 @@ app.UseIpRateLimiting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapControllers();
+
+// WebSocket AI Agent endpoint
+app.Map("/ws/aiagent", async (HttpContext context) =>
+{
+    if (!context.WebSockets.IsWebSocketRequest)
+    {
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
+        await context.Response.WriteAsync("Expected a WebSocket request.");
+        return;
+    }
+
+    var orchestrator = context.RequestServices.GetRequiredService<AiAgentOrchestrator>();
+    var baseUrl = $"{context.Request.Scheme}://{context.Request.Host}";
+
+    using var socket = await context.WebSockets.AcceptWebSocketAsync();
+    await AiAgentWebSocketHandler.RunAsync(socket, orchestrator, baseUrl, context.RequestAborted);
+});
 
 // Ensure database is created (commented out for now - uncomment after fixing firewall)
 // Database connection will be established on first API call that needs it
